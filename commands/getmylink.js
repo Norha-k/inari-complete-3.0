@@ -1,15 +1,19 @@
 
 const {token,prefix,yt_api_key,anime,ownerID} = require('../config.json');
-const {users} = require('../RegisteredUsers.json');
-const search = require("yt-search");
-const ytdl = require('ytdl-core');
-const Discord = require('discord.js');
-module.exports.run = async (client , message , args , ops, db,admin) =>{
 
+var fs = require('fs');
+module.exports.run = async (client , message , args , ops, db,admin) =>{
     let UserID = message.author.id;
-    if(!users.includes(UserID)){return message.channel.send(`you have to  register 1st !\nuse command :  ${prefix}regi <song-url>`);}
+    await fs.readFile('./RegisteredUsers.json', 'utf-8', function(err, data) {
+        if (err) throw err
+        var arrayOfObjects = JSON.parse(data);
+        console.log("arrayofobject value",arrayOfObjects);
+        if(!arrayOfObjects.users.includes(UserID)){return message.channel.send(`you have to  register 1st !\nuse command :  ${prefix}regi <song-url>`);}
+    
+    })
+    
     await db.collection('guild').doc(UserID).get().then(function(querySnapshot){
-        let databaseArray = [...querySnapshot.data().song]
+        let databaseArray = [...querySnapshot.data().song];
         console.log(querySnapshot.data().song);
 
         PlayListshow(databaseArray,message);

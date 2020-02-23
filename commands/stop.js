@@ -9,13 +9,9 @@ module.exports.run = async (client , message , args , ops) =>{
    
    let data = ops.active.get(message.guild.id);
    console.log("--------------->",data.queue);
-   data.dispatcher.destroy();
+   data.isPlaying = false;
+   data.dispatcher.end();
    message.guild.me.voiceChannel.leave()
-   ops.active.delete(message.guild.id);
-   //ops.active.delete(data);
-  /* message.guild.me.voiceChannel.leave();
-   console.log("checking ----->",ops.active.get(message.guild.id));
-   ops.active.delete(message.guild.id);*/
    return message.channel.send(" ** succesfully disconnected ! **");
   
 

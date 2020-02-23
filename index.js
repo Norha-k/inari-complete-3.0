@@ -53,6 +53,7 @@ client.once('ready',() => {
         ]
         let st = status[Math.floor(Math.random() * status.length)]+`    |  ${prefix}help | ${prefix}invite`;
         client.user.setActivity(st , {type : "PLAYING"});
+        
 
     },8000);
     
@@ -85,3 +86,10 @@ client.on('message', message=>{
 });
 
 client.login(token);
+
+function LoadRegiUsers(){
+
+    
+
+
+}

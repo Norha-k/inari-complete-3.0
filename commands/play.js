@@ -30,13 +30,14 @@ module.exports.run = async (client , message , args, ops) =>{
 
     } 
     let info = await ytdl.getInfo(args[0]);
-    //console.log("original data",data);
     let data = ops.active.get(message.guild.id) || {};
     console.log("data created 1st: ",data);
     if(!data.connection) data.connection  = await message.member.voiceChannel.join();
+    console.log("data.connection at start :",data.connection);
     if(!data.queue) data.queue = [];
     data.guildID = message.guild.id;
     data.loop = true;
+    data.isPlaying = true;
     console.log("data created 2nd: ",data);
     data.queue.push({
         songTitle : info.title,
@@ -46,6 +47,7 @@ module.exports.run = async (client , message , args, ops) =>{
         duration : info.length_seconds,
         Thumbnail : `https://i.ytimg.com/vi/${info.video_id}/maxresdefault.jpg`,
         announceChannel : message.channel.id
+        
         
     });
     console.log("data created 3rd: ",data);
@@ -61,7 +63,6 @@ module.exports.run = async (client , message , args, ops) =>{
                                         .addField(":headphones: added to Queue : ","***"+info.title+"***",false)
                                         .setThumbnail(`https://i.ytimg.com/vi/${info.video_id}/maxresdefault.jpg`);            
                                     client.channels.get(message.channel.id).send(embedf);
-            //message.channel.send(`Added to Queue  : ${info.title} | Requested By  :  ${message.author.tag}`);
 
     }
 
@@ -72,6 +73,17 @@ module.exports.run = async (client , message , args, ops) =>{
 
 async function play(client , ops , data){
 
+    
+    data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, { filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25  }));
+    data.dispatcher.guildID = data.guildID;
+    
+    data.dispatcher.once('end', function(){
+
+        console.log("coming at here as welll !")
+         finish(client,ops,this);
+
+    });
+   
     let randomNumber_anime = Math.floor(((Math.random()*10)+1) % anime.length);
     let embedf = new Discord.RichEmbed()
                                         .setColor("RANDOM")
@@ -79,18 +91,18 @@ async function play(client , ops , data){
                                         .setDescription(data.queue[0].url)
                                         .setFooter(anime[randomNumber_anime],client.user.displayAvatarURL)
                                         .addField(":headphones: now playing : ","***"+data.queue[0].songTitle+"***",false)
-                                        .setThumbnail(data.queue[0].Thumbnail);            
-                                    client.channels.get(data.queue[0].announceChannel).send(embedf);
-    //client.channels.get(data.queue[0].announceChannel).send(`**Now Playing** : ${data.queue[0].songTitle} | Requested By : ${data.queue[0].requester}`);
-    data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, { filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25  }));
-    data.dispatcher.guildID = data.guildID;
+                                        .setThumbnail(data.queue[0].Thumbnail); 
+                        
+                                        client.channels.get(data.queue[0].announceChannel).fetchMessages({ limit: 1})
+                                        .then(msg => {
+                                            const fetchedMsg = msg.first();
+                                            if(fetchedMsg.editable){ fetchedMsg.edit(embedf);}
+                                            else client.channels.get(data.queue[0].announceChannel).send(embedf);
+                                           
+                                        });         
+                                    //client.channels.get(data.queue[0].announceChannel).send(embedf);
+
     
-    data.dispatcher.once('end', function(){
-
-        console.log("coming at here as welll !")
-        finish(client,ops,this);
-
-    });
 
 
 }
@@ -107,8 +119,7 @@ function finish(client,ops,dispatcher){
     {   
         fetched.queue.shift();
     }
-    //console.log("value of length",data.queue[0].announceChannel);
-    if(fetched.queue.length > 0){
+    if(fetched.queue.length > 0 && fetched.isPlaying){
 
         ops.active.set(dispatcher.guildID , fetched);
         setTimeout(()=>{

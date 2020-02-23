@@ -8,7 +8,10 @@ var fs = require('fs')
 module.exports.run = async (client , message , args , ops,db,admin) =>{
 
     let UserID = message.author.id;
+    if(!args[0]) return message.reply('sorry , provide a URL or any input.');
     if(users.includes(UserID)) return message.channel.send("**cough , cough you are already registered...(  - _ - )**");
+    let validate = await ytdl.validateURL(args[0]);
+    if(!validate) return message.channel.send("please provide a proper link.");
     message.channel.send("```Hello , welcome to klyra's own playlist managing place \n so..actually this function is still in underconstruction u know ...so...dont be to rely on it for now,\nbut will ping you when its permanently available !```");
     
     fs.readFile('./RegisteredUsers.json', 'utf-8', function(err, data) {
@@ -29,9 +32,7 @@ module.exports.run = async (client , message , args , ops,db,admin) =>{
 
 
 
-    if(!args[0]) return message.reply('sorry , provide a URL or any input.');
-    let validate = await ytdl.validateURL(args[0]);
-    if(!validate) return message.channel.send("please provide a proper link.")
+    
     
     let info = await ytdl.getInfo(args[0]);
     db.collection('guild').doc(UserID).set({
