@@ -8,8 +8,8 @@
     "npm" : "^6.13.7"
   },
   "scripts": {
-    "test": "ping 8.8.8.8"
-    
+    "test": "ping 8.8.8.8",
+    "start": "node index.js"
   },
   "author": "HemantK (otaku)",
   "license": "ISC",
