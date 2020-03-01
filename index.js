@@ -4,6 +4,14 @@ const fs = require('fs');
 const profanities = require('profanities');
 const client =new Discord.Client();
 const active = new Map();  //creating new map for server mappings
+//Heruko Support
+
+const http = require("http");
+const port  = 3000;
+http.createServer().listen(port);
+
+
+
 
  // firebase initialization
 const firebase = require('firebase/app');
