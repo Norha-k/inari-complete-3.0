@@ -1,6 +1,6 @@
 
 const {token,prefix,yt_api_key,anime,ownerID} = require('../config.json');
-var {users} = require('../RegisteredUsers.json');
+//var {users} = require('../RegisteredUsers.json');
 const ytdl = require('ytdl-core');
 const Discord = require('discord.js');
 var fs = require('fs')
