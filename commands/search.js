@@ -20,7 +20,7 @@ module.exports.run = async (client , message , args , ops) =>{
         for(var i in videos){
             embed.addField(`**${parseInt(i)+1} : ${videos[i].title}**`  ,videos[i].url,false)
         }
-        var songEmbed =  message.channel.send(embed);
+        message.channel.send(embed);
         const filter = m =>  !isNaN(m.content) && m.content < videos.length+1 && m.content >0;
         const collector = message.channel.createMessageCollector(filter,{time : 9000});
        
