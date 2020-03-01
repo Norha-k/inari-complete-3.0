@@ -8,7 +8,7 @@ module.exports.run = async (client , message , args , ops) =>{
     return message.channel.send("sorry , you currently aren\'t in the same channel as the bot !");
 
     let userCount = message.member.voiceChannel.members.size;
-    let required = (Math.ceil(userCount/2)-1);
+    let required = Math.ceil(userCount/2);
 
     if(!fetched.queue[0].voteSkips) fetched.queue[0].voteSkips = [];
 

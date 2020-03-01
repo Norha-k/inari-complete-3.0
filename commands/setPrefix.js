@@ -1,5 +1,6 @@
 module.exports.run = async (client , message , args , ops ,db,admin) =>{
-
+    if(!message.member.hasPermission("MANAGE_MESSAGES"))
+            return message.reply("oof , i guess dont have permission : ");
    if(args.length === 0){
        message.channel.send("Missing Prefix !");
    }else if(args.length === 1){

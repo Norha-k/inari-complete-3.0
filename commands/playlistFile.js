@@ -31,7 +31,6 @@ module.exports.run = async (client , message , args , ops) =>{
         var data = ops.active.get(message.guild.id) || {};
         console.log("data created 1st for playlist: ",data);
         if(!data.connection) data.connection  = await message.member.voiceChannel.join();
-        console.log("data.connection at start :",data.connection);
         if(!data.queue) data.queue = [];
         data.guildID = message.guild.id;
         data.loop = true;
@@ -55,13 +54,12 @@ module.exports.run = async (client , message , args , ops) =>{
 }
 
 async function play(client , ops , data){
-    console.log("data.connection =====>",data.connection);
     data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, { filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25  }));
     data.dispatcher.guildID = data.guildID;
     
     data.dispatcher.once('end', function(){
 
-        console.log("coming at here as welll !")
+        console.log("Dispacther re for Playlist")
          finish(client,ops,this);
 
     });

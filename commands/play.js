@@ -31,9 +31,7 @@ module.exports.run = async (client , message , args, ops) =>{
     } 
     let info = await ytdl.getInfo(args[0]);
     let data = ops.active.get(message.guild.id) || {};
-    console.log("data created 1st: ",data);
     if(!data.connection) data.connection  = await message.member.voiceChannel.join();
-    console.log("data.connection at start :",data.connection);
     if(!data.queue) data.queue = [];
     data.guildID = message.guild.id;
     data.loop = true;
@@ -50,7 +48,6 @@ module.exports.run = async (client , message , args, ops) =>{
         
         
     });
-    console.log("data created 3rd: ",data);
     if(!data.dispatcher) play(client,ops,data);
     else{
 
@@ -79,7 +76,7 @@ async function play(client , ops , data){
     
     data.dispatcher.once('end', function(){
 
-        console.log("coming at here as welll !")
+        console.log("Dispacther re..")
          finish(client,ops,this);
 
     });
