@@ -20,7 +20,7 @@ module.exports.run = async (client , message , args , ops,db,admin) =>{
         }
         else
         {
-            message.channel.send("```Hello , welcome to klyra's own playlist managing place \n so..actually this function is still in underconstruction u know ...so...dont be to rely on it for now,\nbut will ping you when its permanently available !```");
+            message.channel.send("```Hello , welcome to klyra and Inari's own playlist managing place \n so..actually this function is still in underconstruction u know ...so...dont be to rely on it for now,\nbut will ping you when its permanently available !```");
             db.collection('VIP').doc(UserID).set({
                  UserName : message.author.tag
                     

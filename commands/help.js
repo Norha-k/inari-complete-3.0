@@ -15,8 +15,8 @@ module.exports.run = async (client , message , args , ops,db) =>{
     }).then(()=>{
         let embedh = new Discord.RichEmbed()
         .setColor("RANDOM")
-        .setTitle(":heart:   Klyra Ōkami | 稲荷大神 :feet: ")
-        .setDescription("Hello , its me Klyra Ōkami | 稲荷大神 :heart: but u can call me , Klyra ! \n Here my **commands** below u can check !")
+        .setTitle(":heart:   Inari Ōkami | 稲荷大神 :feet: ")
+        .setDescription("Hello , its me Inari Ōkami | 稲荷大神 :heart: but u can call me , Klyra ! \n Here my **commands** below u can check !")
         .addField("**say hii to me**  :wave:: ",prefix+"hey",true)
         .addField("**ping check :ping_pong:** : ",prefix+"ping",true)
         .addField("play music :headphones: : ",prefix+"play <space> music_name or URL",false)
