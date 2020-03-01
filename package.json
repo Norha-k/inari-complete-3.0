@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "ping 8.8.8.8",
-    "start": "node index.js"
+    
   },
   "author": "HemantK (otaku)",
   "license": "ISC",
