@@ -73,6 +73,7 @@ client.once('ready',() => {
 client.on('message', message=>{
 
     if(message.author.bot) return;
+    if (message.channel.type == "dm") return message.reply("sorry :fox: , i dont accept Direct messages try to contact me from ur server !");
     for (x=0; x< profanities.length; x++){
         if(message.content.toUpperCase() == profanities[x].toUpperCase()){
             message.channel.send(`Hey ! Don\'t say that !`)
