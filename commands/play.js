@@ -71,7 +71,7 @@ module.exports.run = async (client , message , args, ops) =>{
 async function play(client , ops , data){
 
     
-    data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, { filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25  }));
+    data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, { filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<12  }));
     data.dispatcher.guildID = data.guildID;
     
     data.dispatcher.once('end', function(){

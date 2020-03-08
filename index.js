@@ -12,7 +12,6 @@ http.createServer().listen(port);
 
 
 
-
  // firebase initialization
 const firebase = require('firebase/app');
 const fieldValue = require('firebase-admin').firestore.fieldValue;
@@ -61,7 +60,7 @@ client.once('ready',() => {
         let status = [
             `over ${client.guilds.size} guilds!`,` my only senpai Hemantk | オタク#2123`,`  over ${client.users.size} users yee !`,'with your unrealestic waifu :P'
         ]
-        let st = status[Math.floor(Math.random() * status.length)]+`    |  ${systemprefix}help | ${systemprefix}invite`;
+        let st = status[Math.floor(Math.random() * status.length)]+`    |  ${systemprefix}help | ${systemprefix}invite  | ${systemprefix}prefix`;
         client.user.setActivity(st , {type : "PLAYING"});
         
 
@@ -94,16 +93,16 @@ client.on('message', message=>{
     }).then(()=>{
     var sender = message.author;
     var msg = message.content.toUpperCase();
+   
     var cont = message.content.slice(prefix.length).split(" ");
     var args = cont.slice(1);
     var cmd = client.commands.get(cont[0]) //tries to grab command you called in chat.
-   
+    if(msg === systemprefix + 'PREFIX'){  message.channel.send(`**Your Guild prefix : **[ ${prefix} ]`)}
     if(!message.content.startsWith(prefix)) return; //return if prefix is not matching with assigned one
     //console.log("args value right now : ",args);
-
-
     
     if(cmd) cmd.run(client,message,args,ops,db,admin);
+   
     if(msg === prefix + 'RELOAD'){  message.channel.send("commands Reloaded...");LoadCommands();}
 
 
@@ -130,15 +129,3 @@ client.on('guildCreate', async gData =>{
     });
 
 });
-
-function resetPrefix(db,message){
-    db.collection(`prefix`).doc(message.guild.id).update({
-    
-        'prefix' : systemprefix
-
-        
-            }).then(()=>{
-            message.channel.send(`[prefix updated] : new prefix ${systemprefix}`)
-    })
-
-}

@@ -20,7 +20,7 @@ module.exports.run = async (client , message , args , ops) =>{
          .setTitle(videoInfo.requester)
          .setDescription(tex+videoInfo.songTitle+"\n```")
          .setThumbnail(videoInfo.Thumbnail)
-         .addField("Duration :",convertTime(ms),false) 
+         .addField("Duration :",convertTime(ms),true) 
          .addField("Link :",videoInfo.url,false) 
          .setFooter(anime[randomNumber_anime],client.user.displayAvatarURL);          
              message.channel.send(embed);
